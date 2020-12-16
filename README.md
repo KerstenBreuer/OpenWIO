@@ -1,2 +1,4 @@
-# pyWIAL
-Python Workflow Input Abstraction Layer
+# pyWIAL - Python Workflow Input Abstraction Layer
+
+Planning.
+
