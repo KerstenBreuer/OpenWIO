@@ -1,4 +1,4 @@
-# pyWIAL - Python Workflow Input Abstraction Layer
+# WIOS - Workflow Input/Output Schemas
 
 Planning.
 
