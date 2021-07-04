@@ -4,7 +4,7 @@ on: push
 
 env:
   # Please adapt to package name
-  MAIN_SRC_DIR: ./my_microservice
+  MAIN_SRC_DIR: ./openwio
 
 jobs:
   static-code-analysis:
