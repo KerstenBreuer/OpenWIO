@@ -1,4 +1,4 @@
-# WIOS - Workflow Input/Output Schemas
+# OpenWIO - Open Workflow Input/Output specification
 
 Planning.
 
