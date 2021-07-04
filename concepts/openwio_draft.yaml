@@ -1,0 +1,119 @@
+# Copyright 2021 Kersten Henrik Breuer
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+openwio: 0.1.0-draft
+
+info:
+  title: MSA Groupe Comparison Workflow
+  description: |
+    This workflow compares two groups of sequences by running two steps: \n
+      1. a MSA aligment to calculate a distance matrix \n
+      2. generate and plot a phylogenetic tree annotated by group labels \n
+    \n
+    For more information please see: \n
+    https://w3id.org/cwl/view/git/5227e2c45be641c6675c0a24a8b1f72d712fac40/CWL/workflows/msa_group_compare.cwl
+  version: 0.1.0
+
+inputs:
+  - id: fasta_1
+    label: FASTA of Group 1
+    tags:
+      - Groups to Compare
+      - Sequence Files
+    description: |
+      Protein / DNA / RNA sequences of first group in fasta format.
+    type: File
+
+  - id: fasta_2
+    label: FASTA of Group 2
+    tags:
+      - Groups to Compare
+      - Sequence Files
+    description: |
+      Protein / DNA / RNA sequences of first group in fasta format.
+    type: File
+
+  - id: group_name_1
+    label: Name of Group 1
+    tags: ["Groups to Compare"]
+    description: Name of first group.
+    type: string
+    default: group_1
+
+  - id: group_name_2
+    label: Name of Group 2
+    tags: ["Groups to Compare"]
+    description: Name of second group.
+    type: string
+    default: group_2
+
+  - id: msa_method
+    label: MSA Method
+    tags: ["Algorithm"]
+    description: |
+      Which multiple sequence alignment algorithm to use.
+      One of "ClustalW", "ClustalOmega", or "Muscle".
+      For more information see: https://www.ebi.ac.uk/Tools/msa/
+    type: string
+    oneOf:
+      - ClustalW
+      - ClustalOmega
+      - Muscle
+    default: ClustalW
+
+  - id: seq_type
+    label: Type of Sequence
+    tags: ["Algorithm"]
+    description: |
+      The type of sequence. One of "protein", "dna", or "rna".
+    type: string
+    oneOf:
+      - protein
+      - dna
+      - rna
+    default: protein
+
+  - id: homology_method
+    label: Homology Method
+    tags: ["Algorithm"]
+    description: |
+      Which distance measure to use. Either "similarity" or "identity".
+    type: string
+    oneOf:
+      - identity
+      - similarity
+    default: identity
+
+  - id: tree_color_by_group
+    label: Color Tree by Group
+    tags: ["Visualization"]
+    description: |
+      Whether to color the phylogenetic tree by group.
+    type: boolean
+    default: true
+
+outputs:
+  - id: dist_tsv
+    label: Distance matrix
+    description: |
+      Distance matrix in TSV format.
+    type: File
+    regex: '.*\.tsv'
+
+  - id: tree_plot
+    label: Tree Plot
+    description: |
+      Visualization of the hirarchically clustered tree.
+    type: File
+    regex: '.*\.png'
