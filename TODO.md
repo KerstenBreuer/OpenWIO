@@ -16,6 +16,7 @@ Implement in concept of OpenWIO spec:
 - [ ] secondary files
 - [ ] custom icons
 - [ ] additional metadata
+- [x] feature requirements
 
 Implement in concept of OpenWIO Job file spec:
 - [ ] access methods, only in ready input/output job files

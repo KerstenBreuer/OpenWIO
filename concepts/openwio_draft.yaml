@@ -24,6 +24,11 @@ info:
     For more information please see: \n
     https://w3id.org/cwl/view/git/5227e2c45be641c6675c0a24a8b1f72d712fac40/CWL/workflows/msa_group_compare.cwl
   version: 0.1.0
+  spec:
+    type: CWL
+    version: 1.0
+    Requirements:
+      - InlineJavascriptRequirement
 
 inputGroups:
   raw_data:
