@@ -25,95 +25,152 @@ info:
     https://w3id.org/cwl/view/git/5227e2c45be641c6675c0a24a8b1f72d712fac40/CWL/workflows/msa_group_compare.cwl
   version: 0.1.0
 
-inputs:
-  - id: fasta_1
-    label: FASTA of Group 1
-    tags:
-      - Groups to Compare
-      - Sequence Files
+inputGroups:
+  raw_data:
+    label: Raw sequencing data & Cohort Information
     description: |
-      Protein / DNA / RNA sequences of first group in fasta format.
-    type: File
+      This group of parameters are used to specify raw protein / DNA / RNA
+      sequencing data as well as metadata on the cohorts / sample groups to be
+      compared.
+    order: 1
+    parameters:
+      group_name_1:
+        label: Nae of Group 1
+        description: Name of first group.
+        tags:
+          - Groups to Compare
+        order: 1
+        type: string
+        regex: '[A-Za-z_\-]+'
+        default: group_1
 
-  - id: fasta_2
-    label: FASTA of Group 2
-    tags:
-      - Groups to Compare
-      - Sequence Files
+      group_name_2:
+        label: Name of Group 2
+        description: Name of first group.
+        tags:
+          - Groups to Compare
+        order: 2
+        type: string
+        regex: '[A-Za-z_\-]+'
+        default: group_2
+
+      seq_type:
+        label: Type of Sequence
+        tags:
+          - data type
+        description: |
+          The type of sequence. One of "protein", "dna", or "rna".
+        order: 10
+        type: string
+        oneOf:
+          - protein
+          - dna
+          - rna
+        default: protein
+
+      fasta_1:
+        label: FASTA of Group 1
+        description: |
+          Protein / DNA / RNA sequences of first group in fasta format.
+          Each sequence entry corresponds to one sample.
+        tags:
+          - Groups to Compare
+          - Sequence Files
+        order: 100
+        type: File
+        format: http://edamontology.org/format_1929
+
+      fasta_2:
+        label: FASTA of Group 2
+        description: |
+          Protein / DNA / RNA sequences of second group in fasta format.
+          Each sequence entry corresponds to one sample.
+        tags:
+          - Groups to Compare
+          - Sequence Files
+        order: 101
+        type: File
+        format: http://edamontology.org/format_1929
+
+  msa_params:
+    label: MSA Algorithm and Parameters
     description: |
-      Protein / DNA / RNA sequences of first group in fasta format.
-    type: File
+      Select the Multiple Sequence algorithm and its parameters.
+    order: 2
+    parameters:
+      msa_method:
+        label: MSA Method
+        description: |
+          Which multiple sequence alignment algorithm to use.
+          One of "ClustalW", "ClustalOmega", or "Muscle".
+          For more information see: https://www.ebi.ac.uk/Tools/msa/
+        tags:
+          - Algorithm
+          - MSA
+        order: 1
+        type: string
+        oneOf:
+          - ClustalW
+          - ClustalOmega
+          - Muscle
+        default: ClustalW
 
-  - id: group_name_1
-    label: Name of Group 1
-    tags: ["Groups to Compare"]
-    description: Name of first group.
-    type: string
-    default: group_1
+      homology_method:
+        label: Homology Method
+        description: |
+          Which distance measure to use. Either "similarity" or "identity".
+        tags:
+          - Algorithm
+          - homology
+        order: 2
+        type: string
+        oneOf:
+          - identity
+          - similarity
+        default: identity
 
-  - id: group_name_2
-    label: Name of Group 2
-    tags: ["Groups to Compare"]
-    description: Name of second group.
-    type: string
-    default: group_2
-
-  - id: msa_method
-    label: MSA Method
-    tags: ["Algorithm"]
+  visualization_params:
+    label: Visualization Parameters
     description: |
-      Which multiple sequence alignment algorithm to use.
-      One of "ClustalW", "ClustalOmega", or "Muscle".
-      For more information see: https://www.ebi.ac.uk/Tools/msa/
-    type: string
-    oneOf:
-      - ClustalW
-      - ClustalOmega
-      - Muscle
-    default: ClustalW
+      Customize the visualization of results.
+    order: 3
+    parameters:
+      tree_color_by_group:
+        label: Color Tree by Group
+        tags:
+          - Visualization
+        description: |
+          Whether to color the phylogenetic tree by group.
+        order: 1
+        type: boolean
+        default: true
 
-  - id: seq_type
-    label: Type of Sequence
-    tags: ["Algorithm"]
+outputGroups:
+  counts:
+    label: Counts
     description: |
-      The type of sequence. One of "protein", "dna", or "rna".
-    type: string
-    oneOf:
-      - protein
-      - dna
-      - rna
-    default: protein
+      Final quantitative data. This may include counts in
+      matrices, tables, etc.
+    order: 1
+    parameters:
+      - id: dist_tsv
+        label: Distance matrix
+        description: |
+          Distance matrix in TSV format.
+        type: File
+        format: http://edamontology.org/format_3475
+        regex: '.*\.tsv'
 
-  - id: homology_method
-    label: Homology Method
-    tags: ["Algorithm"]
+  visualzations:
+    label: Visualizations
     description: |
-      Which distance measure to use. Either "similarity" or "identity".
-    type: string
-    oneOf:
-      - identity
-      - similarity
-    default: identity
-
-  - id: tree_color_by_group
-    label: Color Tree by Group
-    tags: ["Visualization"]
-    description: |
-      Whether to color the phylogenetic tree by group.
-    type: boolean
-    default: true
-
-outputs:
-  - id: dist_tsv
-    label: Distance matrix
-    description: |
-      Distance matrix in TSV format.
-    type: File
-    regex: '.*\.tsv'
-
-  - id: tree_plot
-    label: Tree Plot
-    description: |
-      Visualization of the hirarchically clustered tree.
-    type: File
-    regex: '.*\.png'
+      Plots and visualizations of the results.
+    order: 1
+    parameters:
+      - id: tree_plot
+        label: Tree Plot
+        description: |
+          Visualization of the hirarchically clustered tree.
+        type: File
+        format: http://edamontology.org/format_3603
+        regex: '.*\.png'
