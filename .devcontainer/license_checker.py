@@ -52,7 +52,6 @@ EXCLUDE = [
     "example-config.yaml",
     "LICENSE",  # is checked but not for the license header
     ".pre-commit-config.yaml",
-    "README.md",
     "docs",
     "requirements.txt",
     ".vscode",
@@ -62,7 +61,7 @@ EXCLUDE = [
 ]
 
 # exclude file by file ending from license header check:
-EXCLUDE_ENDINGS = ["json", "pyc", "cwl"]
+EXCLUDE_ENDINGS = ["json", "pyc", "cwl", "md"]
 
 # exclude any files with names that match any of the following regex:
 EXCLUDE_PATTERN = [r".*\.egg-info.*", r".*__cache__.*"]
